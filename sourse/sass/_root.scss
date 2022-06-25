@@ -1,0 +1,34 @@
+:root {
+  --animate-delay: 1.2s;
+
+	--sPT: #{rem(40)};
+	--sPB: #{rem(45)};
+	--sTPB: #{rem(30)};
+  @include media-breakpoint-up(md) {
+    --sPT: #{rem(80)};
+    --sPB: #{rem(90)};
+    --sTPB: #{rem(40)};
+  }
+
+
+  --bs-body-font-size: 14px;
+  @include media-breakpoint-up(md){
+    --bs-body-font-size: 15px;
+  }
+  @include media-breakpoint-up(xl){
+    --bs-body-font-size: #{$em-base};
+  }
+
+  --swiperArrowSize: #{rem(68)};
+  --swiperArrowPosition: calc(-1 * var(--swiperArrowSize) / 2);
+  --swiperBorderColorDef: var(--bs-primary);
+  --swiperColorDef: var(--bs-primary);
+  --swiperBgDef: #ffffff;
+
+  --swiperBorderColorDefHover: var(--bs-primary);
+  --swiperColorDefHover: var(--bs-primary);
+  --swiperBgDefHover: #ffffff;
+
+
+  --fancybox-bg: rgba(24, 24, 27, .77);
+}
