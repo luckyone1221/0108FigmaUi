@@ -1,0 +1,156 @@
+// start .sMain
+.sMain {
+
+	//for banner indication
+	counter-reset: banner 0;
+	&__banner{
+		border-bottom: 1px solid $gray-600;
+		padding-bottom: rem(40);
+		margin-bottom: rem(40);
+
+		&:last-child{
+			border-bottom: none;
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+
+		//for frame indication
+		counter-reset: frame 0;
+	}
+	&__bann-title{
+		display: flex;
+		align-items: center;
+		font-weight: 500;
+		margin-bottom: rem(30);
+
+		&:before{
+			counter-increment: banner;
+			content: counter(banner);
+			border-radius: rem(50);
+			min-width: rem(50);
+			height: rem(50);
+			padding: rem(8) rem(10) rem(10) rem(10);
+			margin-right: rem(20);
+
+			border: 2px solid $cyan;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 700;
+			font-size: rem(24);
+			line-height: 1;
+			box-shadow: 1px 1px 8px 0px rgba($black, .25);
+			color: $gray-700;
+		}
+
+		font-size: rem(21);
+		color: $gray-800;
+	}
+	&__frame{
+		margin-bottom: rem(40);
+		border-radius: rem(16);
+		padding: rem(32) rem(24);
+		background-color: $gray-100;
+		border: 1px solid $gray-400;
+
+		box-shadow: 2px 2px 18px -2px rgba($black, .2);
+	}
+	&__frame-number{
+		display: flex;
+		align-items: flex-end;
+		font-size: rem(18);
+		font-weight: 500;
+
+		&:after{
+			counter-increment: frame;
+			content: counter(frame);
+			//@extend .form-control;
+
+			//color: $gray-700;
+			margin-left: 10px;
+			color: $green;
+			font-weight: 900;
+		}
+
+		position: relative;
+		padding-bottom: rem(20);
+		&:before{
+			content: '';
+			position: absolute;
+			width: rem(40);
+			height: rem(4);
+			left: 0;
+			top: 100%;
+			transform: translateY(-50%);
+			background: linear-gradient(86.99deg, $green 0.21%, $cyan 99.92%), $white;
+		}
+	}
+	&__remove-frame{
+		@extend .btn;
+		@extend .btn-outline-danger;
+		border-radius: rem(50);
+
+		&:not(.active){
+			@extend .disabled;
+		}
+
+		width: rem(40);
+		height: rem(40);
+		position: relative;
+
+		color: $red!important;
+		background-color: transparent!important;
+		&:hover{
+			background-color: $red!important;
+			color: $white!important;
+		}
+
+		&:before,
+		&:after{
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateY(-50%) translateX(-50%) rotate(var(--cross-rotate));
+			height: rem(16);
+			width: 2px;
+			background-color: currentColor;
+		}
+
+		&:before{
+			--cross-rotate: 45deg;
+		}
+		&:after{
+			--cross-rotate: -45deg;
+		}
+	}
+	//
+	&__label{
+		display: block;
+	}
+	&__title{
+		text-transform: capitalize;
+		font-weight: 500;
+		color: $gray-800;
+		font-size: rem(14);
+		margin-bottom: rem(6);
+		display: block;
+	}
+
+	&__btn{
+		@extend .btn;
+		font-weight: 600;
+
+		&--add{
+			@extend .btn-outline-info;
+			&:hover{
+				color: $white;
+			}
+		}
+		&--remove{
+			@extend .btn-warning;
+			color: $white;
+		}
+	}
+	&__{}
+} // end.sMain

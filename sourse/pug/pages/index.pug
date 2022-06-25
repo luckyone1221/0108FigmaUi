@@ -3,6 +3,7 @@ extends layout/main.pug
 
 include ../blocks/sContent/_sContent.pug
 include ../blocks/sContact/_sContact.pug
+include ../blocks/sMain/_sMain.pug
 
 block variables
 	- let  mainPage= 'main-page' 
@@ -14,14 +15,10 @@ block title
 block pagecontent
 	//- +mob-mnu()
 	+header()
-	+top-nav()
-	+topLine()
-	//-.container
-		.swiper-wrapper
-			.swiper-slide 1
-			.swiper-slide 2
-			.swiper-slide 3
-	+headerBlock()
-	+sForm()
-	+sContact()
+		+top-nav()
+	+sMain()
+	//+topLine()
+	//+headerBlock()
+	//+sForm()
+	//+sContact()
 	+footer()

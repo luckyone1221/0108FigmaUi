@@ -252,13 +252,13 @@ const $ = jQuery;
 
 function eventHandler() {
 	// JSCCommon.ifie();
-	JSCCommon.modalCall();
+	//JSCCommon.modalCall();
 	// JSCCommon.tabscostume();
-	JSCCommon.mobileMenu();
+	//JSCCommon.mobileMenu();
 	// JSCCommon.inputMask();
 	// JSCCommon.sendForm();
 	JSCCommon.heightwindow();
-	JSCCommon.makeDDGroup();
+	//JSCCommon.makeDDGroup();
 	// JSCCommon.animateScroll();
 	
 	// JSCCommon.CustomInputFile(); 
@@ -321,6 +321,63 @@ function eventHandler() {
 		...freeMomentum,
 	});
 	// modal window
+
+	//repeator
+	$('.repeator-js').each(function () {
+		let firtsItem = this.querySelector('.r-item-js');
+		if (!firtsItem) return;
+		let content = firtsItem.innerHTML;
+
+		let addBtn = this.querySelector('.r-add-btn-js');
+		addBtn.addEventListener('click', duplicateRItem.bind(addBtn, this, content));
+	});
+
+
+	function duplicateRItem(repeator, content) {
+		//let rItemsParent = repeatorItem.parentNode;
+		let newItem = document.createElement('div');
+		newItem.classList.add('r-item-js', 'd-none-no-important');
+		newItem.innerHTML = content;
+
+		let rItems = repeator.querySelector('.r-items-js');
+		rItems.appendChild(newItem);
+
+		$(newItem).slideDown(function () {
+			$(this).removeClass('d-none-no-important');
+			checkRemoveBtn(rItems);
+		});
+		// checkHint(parent);
+	}
+	function checkRemoveBtn(rItems){
+		let removeBtns = rItems.querySelectorAll('.r-remove-item-js');
+
+		for (let btn of removeBtns){
+			if (rItems.children.length > 1){
+				btn.classList.add('active');
+			}
+			else{
+				btn.classList.remove('active');
+			}
+		}
+	}
+
+
+	//delegation of remove btn
+	$('.repeator-js').click(function () {
+		let thisRepeator = this;
+		let target = event.target;
+
+		if (target.closest('.r-remove-item-js')) {
+			let item = target.closest('.r-item-js');
+
+			$(item).slideUp(function () {
+				$(item).addClass('d-none');
+				item.remove();
+				checkRemoveBtn(thisRepeator.querySelector('.r-items-js'));
+			});
+
+		}
+	})
 
 };
 if (document.readyState !== 'loading') {
