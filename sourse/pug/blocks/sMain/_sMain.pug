@@ -1,136 +1,158 @@
 mixin sMain(data)
 	// start sMain
 	+b.sMain.section#sMain&attributes(attributes)
-		+e.container.container
-			//-+b.section-title.text-center
-				h2 sMain
-			+sMainBanner()
+		.repeator-js
+			+e.banners.r-items-js.banners-js
+				+sMainBanner()
+				+sMainBanner()
+				+sMainBanner()
+				//+sMainBanner()
+				//+sMainBanner()
+				//+sMainBanner()
+			.container
+				+e.controll-row.row.gx-3.pt-3
+					.col-6.col-sm-auto
+						+e.btn--add.r-add-btn-js Add Banner
+					.col-auto
+						+e.btn--export.export-data-js Export Data
+					//-.col-6.col-sm-auto
+						+e.btn--remove.r-add-btn-js Remove Banner
 
 	// end sMain
 
 mixin sMainBanner()
-	+e.banner
-		+e.bann-title Banner
-		.repeator-js
-			+e.frames.r-items-js
-				+sMainFrame({})
-			//-+sMainFrame({})
-			+e.controll-row.row.gx-3.pt-3
-				.col-6.col-sm-auto
-					+e.btn--add.r-add-btn-js Add frame
-				.col-6.col-sm-auto
-					+e.btn--remove.r-add-btn-js Remove Banner
+	.r-item-js
+		.container
+			+e.banner
+				.row.align-items-center.mb-5.gx-3
+					.col
+						+e.bann-title Banner
+					.col-auto
+						+e.round-btn--minify.minify-banners-js
+							img(loading="lazy" src="img/svg/chevron-down.svg" alt="")
+					.col-auto
+						+e.round-btn--remove.r-remove-item-js
+				.repeator-js
+					+e.frames.r-items-js.frames-js
+						+sMainFrame({})
+						+sMainFrame({})
+					+e.controll-row.row.gx-3.pt-3
+						.col-6.col-sm-auto
+							+e.btn--add.r-add-btn-js Add frame
+						.col-6.col-sm-auto
+							+e.btn--remove.r-remove-item-js Remove Banner
 
 
 mixin sMainFrame(data)
 	.r-item-js
 		+e.frame
-			.row.mb-3.align-items-center
-				.col-auto
+			+e.f-controll-row.row.align-items-center
+				.col
 					+e.frame-number Frame
-				.col-auto.ms-auto
-					+e.remove-frame.r-remove-item-js
-			.row.gx-4.gy-3
-				//-.col-1
-					+e.title frame
-				.col-lg
-					+sMainInput({
-						key: 'size',
-						defaultValue: '300x250',
-					})
-				.col-lg
-					+sMainSelect({
-						key: 'car type',
-						optionsArr: [
-							'bmw',
-							'bmw_i',
-							'bmw_m',
-							'mybmw',
-							'bmw_i_m',
-						],
-					})
-				.col-lg
-					+sMainSelect({
-						key: 'alignment',
-						optionsArr: [
-							'left',
-							'right',
-						],
-					})
-				.col-lg
-					+sMainSelect({
-						key: 'version',
-						optionsArr: [
-							'v1',
-							'v2',
-							'v3',
-							'v4',
-							'v5',
-							'v6',
-							'v7',
-							'v8',
-						],
-					})
-				.col-lg
-					+sMainSelect({
-						key: 'disclaimer',
-						optionsArr: [
-							'no',
-							'yes',
-						],
-					})
-				.col-lg
-					+sMainSelect({
-						key: 'cta',
-						optionsArr: [
-							'no',
-							'yes',
-						],
-					})
-				.col-12.mt-0
-				.col-lg
-					+sMainInput({
-						key: 'reportingLabel',
-						defaultValue: 'BMW_Q2_I_PROJECTNAME_',
-					})
-				.col-lg-4
-					+sMainInput({
-						key: 'image',
-						defaultValue: 'red.jpg',
-					})
-				.col-lg-4
-					+sMainInput({
-						key: 'headline_txt',
-						defaultValue: 'IPSUM<BR>LOREM',
-					})
-				.col-lg-4
-					+sMainInput({
-						key: 'subline_txt',
-						defaultValue: 'LOREM<BR>DOLOR',
-					})
-				.col-lg-4
-					+sMainInput({
-						key: 'disclaimer_txt',
-						defaultValue: '',
-					})
-				.col-lg-4
-					+sMainInput({
-						key: 'cta_txt',
-						defaultValue: '',
-					})
-				//-
-					+sMainInput({
-						key: '',
-						defaultValue: '',
-					})
-					+sMainSelect({
-						key: '',
-						defaultValue: [
-							'',
-							'',
-							'',
-						],
-					})
+				.col-auto
+					+e.round-btn--remove.r-remove-item-js
+			+e.f-inputs
+				.row.gx-4.gy-3
+					//-.col-1
+						+e.title frame
+					.col-lg
+						+sMainInput({
+							key: 'size',
+							defaultValue: '300x250',
+						})
+					.col-lg
+						+sMainSelect({
+							key: 'car type',
+							optionsArr: [
+								'bmw',
+								'bmw_i',
+								'bmw_m',
+								'mybmw',
+								'bmw_i_m',
+							],
+						})
+					.col-lg
+						+sMainSelect({
+							key: 'alignment',
+							optionsArr: [
+								'left',
+								'right',
+							],
+						})
+					.col-lg
+						+sMainSelect({
+							key: 'version',
+							optionsArr: [
+								'v1',
+								'v2',
+								'v3',
+								'v4',
+								'v5',
+								'v6',
+								'v7',
+								'v8',
+							],
+						})
+					.col-lg
+						+sMainSelect({
+							key: 'disclaimer',
+							optionsArr: [
+								'no',
+								'yes',
+							],
+						})
+					.col-lg
+						+sMainSelect({
+							key: 'cta',
+							optionsArr: [
+								'no',
+								'yes',
+							],
+						})
+					.col-12.mt-0
+					.col-lg
+						+sMainInput({
+							key: 'reportingLabel',
+							defaultValue: 'BMW_Q2_I_PROJECTNAME_',
+						})
+					.col-lg-4
+						+sMainInput({
+							key: 'image',
+							defaultValue: 'red.jpg',
+						})
+					.col-lg-4
+						+sMainInput({
+							key: 'headline_txt',
+							defaultValue: 'IPSUM<BR>LOREM',
+						})
+					.col-lg-4
+						+sMainInput({
+							key: 'subline_txt',
+							defaultValue: 'LOREM<BR>DOLOR',
+						})
+					.col-lg-4
+						+sMainInput({
+							key: 'disclaimer_txt',
+							defaultValue: '',
+						})
+					.col-lg-4
+						+sMainInput({
+							key: 'cta_txt',
+							defaultValue: '',
+						})
+					//-
+						+sMainInput({
+							key: '',
+							defaultValue: '',
+						})
+						+sMainSelect({
+							key: '',
+							defaultValue: [
+								'',
+								'',
+								'',
+							],
+						})
 
 
 mixin sMainInput(data)

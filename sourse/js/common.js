@@ -284,84 +284,45 @@ function eventHandler() {
 	window.addEventListener('resize', calcHeaderHeight, { passive: true });
 	window.addEventListener('scroll', calcHeaderHeight, { passive: true });
 	calcHeaderHeight();
-
-
-	let defaultSl = {
-		spaceBetween: 0,
-		lazy: {
-			loadPrevNext: true,
-		},
-		watchOverflow: true,
-		loop: true,
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev',
-		},
-		pagination: {
-			el: ' .swiper-pagination',
-			type: 'bullets',
-			clickable: true,
-			// renderBullet: function (index, className) {
-			// 	return '<span class="' + className + '">' + (index + 1) + '</span>';
-			// }
-		},
-	}
-
-	let freeMomentum = {
-		slidesPerView: 'auto',
-		freeMode: true,
-		loopFillGroupWithBlank: true,
-		touchRatio: 0.2,
-		slideToClickedSlide: true,
-		freeModeMomentum: true,
-	};
-
-	let defSlider = new Swiper('selector', {
-		...defaultSl,
-		...freeMomentum,
-	});
 	// modal window
 
 	//repeator
-	$('.repeator-js').each(function () {
-		let firtsItem = this.querySelector('.r-item-js');
-		if (!firtsItem) return;
-		let content = firtsItem.innerHTML;
+	// function checkRemoveBtn(rItems){
+	// 	let removeBtns = rItems.querySelectorAll('.r-remove-item-js');
+	//
+	// 	for (let btn of removeBtns){
+	// 		if (rItems.children.length > 1){
+	// 			btn.classList.add('active');
+	// 		}
+	// 		else{
+	// 			btn.classList.remove('active');
+	// 		}
+	// 	}
+	// }
+	//delegation of add btn
+	$('.repeator-js').click(function () {
+		let target = event.target;
+		let thisRepeator = target.closest('.repeator-js');
 
-		let addBtn = this.querySelector('.r-add-btn-js');
-		addBtn.addEventListener('click', duplicateRItem.bind(addBtn, this, content));
-	});
+		// if we cant using event.stopPropagation(); for some reason then we need to create a function
+		// that accept some classes and makes all of this
+		event.stopPropagation();
 
+		if (target.closest('.r-add-btn-js')) {
+			let rItems = thisRepeator.querySelector('.r-items-js');
 
-	function duplicateRItem(repeator, content) {
-		//let rItemsParent = repeatorItem.parentNode;
-		let newItem = document.createElement('div');
-		newItem.classList.add('r-item-js', 'd-none-no-important');
-		newItem.innerHTML = content;
+			let newItem = document.createElement('div');
+			newItem.classList.add('r-item-js', 'd-none-no-important');
+			newItem.innerHTML = rItems.children[0].innerHTML;
 
-		let rItems = repeator.querySelector('.r-items-js');
-		rItems.appendChild(newItem);
+			rItems.appendChild(newItem);
 
-		$(newItem).slideDown(function () {
-			$(this).removeClass('d-none-no-important');
-			checkRemoveBtn(rItems);
-		});
-		// checkHint(parent);
-	}
-	function checkRemoveBtn(rItems){
-		let removeBtns = rItems.querySelectorAll('.r-remove-item-js');
-
-		for (let btn of removeBtns){
-			if (rItems.children.length > 1){
-				btn.classList.add('active');
-			}
-			else{
-				btn.classList.remove('active');
-			}
+			$(newItem).slideDown(function () {
+				$(this).removeClass('d-none-no-important');
+				//checkRemoveBtn(rItems);
+			});
 		}
-	}
-
-
+	})
 	//delegation of remove btn
 	$('.repeator-js').click(function () {
 		let thisRepeator = this;
@@ -373,11 +334,78 @@ function eventHandler() {
 			$(item).slideUp(function () {
 				$(item).addClass('d-none');
 				item.remove();
-				checkRemoveBtn(thisRepeator.querySelector('.r-items-js'));
+				//checkRemoveBtn(thisRepeator.querySelector('.r-items-js'));
 			});
 
 		}
 	})
+
+	//.minify-banners-js
+	$('.repeator-js').click(function () {
+		let target = event.target;
+		let thisRepeator = target.closest('.repeator-js');
+
+		if (target.closest('.minify-banners-js')) {
+			console.log('lala');
+		}
+	})
+	//.export-data-js
+	$('.export-data-js').click(function (){
+		let idCounter = 1;
+		let data = [];
+		let banners = document.querySelectorAll('.banners-js > *:not(:first-child)');
+
+		//-create splitter
+		let oneFrame = document.querySelector('.frames-js > *'); //first at the same time
+		let splitterInps = oneFrame.querySelectorAll('[data-key]');
+		let splitter = {
+			id: '',
+			frame: '',
+		};
+
+		for (let input of splitterInps){
+			splitter[input.getAttribute('data-key')] = '';
+		}
+		//
+
+		//-
+		for (let banner of banners){
+			let frames = banner.querySelectorAll('.frames-js > *:not(:first-child)');
+
+			//-
+			for(let [frameIndex, frame] of Object.entries(frames)){
+				let frameObj = {
+					id: idCounter,
+					frame: Number(frameIndex)+1,
+				};
+				idCounter++;
+
+				let inputs = frame.querySelectorAll('[data-key]');
+
+				//-
+				for (let input of inputs){
+					frameObj[input.getAttribute('data-key')] = input.value;
+				}
+
+				data.push(frameObj);
+			}
+
+			if (banner !== banners[banners.length - 1]){
+				data.push(splitter);
+			}
+		}
+		let json = JSON.stringify(data);
+
+
+		//copy here
+		//navigator.clipboard.writeText
+		navigator.clipboard.writeText(json);
+
+	})
+
+	// todo
+	// 1. preview
+	// 2. frame and banners order change
 
 };
 if (document.readyState !== 'loading') {

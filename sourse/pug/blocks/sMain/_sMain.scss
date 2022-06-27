@@ -1,19 +1,47 @@
 // start .sMain
 .sMain {
+	--sPT: 0;
 
+	overflow: hidden;
 	//for banner indication
 	counter-reset: banner 0;
-	&__banner{
-		border-bottom: 1px solid $gray-600;
-		padding-bottom: rem(40);
-		margin-bottom: rem(40);
 
-		&:last-child{
-			border-bottom: none;
-			margin-bottom: 0;
-			padding-bottom: 0;
+	//banner wrap
+	&__banners > *{
+		&:first-child{
+			display: none;
 		}
 
+		padding-top: rem(40);
+		padding-bottom: rem(40);
+
+		position: relative;
+		z-index: 1;
+		&:after{
+			content: '';
+			position: absolute;
+			z-index: -1;
+			pointer-events: none;
+
+			left: calc(-1 * (102vw - 100%) / 2);
+			top: 0;
+			height: 100%;
+			width: 102vw;
+			background-color: $gray-100;
+			//background-color: rgba($success, 0.05);
+			box-shadow: inset 0px 15px 25px -15px rgba($black, .2);
+			clip-path: polygon(0 2%, 100% 0, 100% 98%, 0% 100%);
+		}
+
+		&:nth-child(even){
+			--frame-bg: #{$gray-100};
+			&:after{
+				content: none;
+			}
+		}
+	}
+	&__banner{
+		//border-bottom: 1px solid $gray-600;
 		//for frame indication
 		counter-reset: frame 0;
 	}
@@ -21,7 +49,7 @@
 		display: flex;
 		align-items: center;
 		font-weight: 500;
-		margin-bottom: rem(30);
+		//margin-bottom: rem(30);
 
 		&:before{
 			counter-increment: banner;
@@ -32,6 +60,7 @@
 			padding: rem(8) rem(10) rem(10) rem(10);
 			margin-right: rem(20);
 
+			background-color: $white;
 			border: 2px solid $cyan;
 			display: flex;
 			align-items: center;
@@ -46,15 +75,31 @@
 		font-size: rem(21);
 		color: $gray-800;
 	}
+
+	//frame_wrap
+	&__frames > *{
+		&:first-child{
+			display: none;
+		}
+	}
 	&__frame{
+		--frame-pt: #{rem(32)};
+
 		margin-bottom: rem(40);
 		border-radius: rem(16);
-		padding: rem(32) rem(24);
-		background-color: $gray-100;
-		border: 1px solid $gray-400;
+		padding: var(--frame-pt) rem(24);
 
+		background-color: var(--frame-bg, #{$white});
+		border: 1px solid $gray-400;
 		box-shadow: 2px 2px 18px -2px rgba($black, .2);
 	}
+	&__f-controll-row{
+
+	}
+	&__f-inputs{
+		padding-top: var(--frame-pt);
+	}
+
 	&__frame-number{
 		display: flex;
 		align-items: flex-end;
@@ -85,25 +130,13 @@
 			background: linear-gradient(86.99deg, $green 0.21%, $cyan 99.92%), $white;
 		}
 	}
-	&__remove-frame{
+	&__round-btn{
 		@extend .btn;
-		@extend .btn-outline-danger;
 		border-radius: rem(50);
-
-		&:not(.active){
-			@extend .disabled;
-		}
 
 		width: rem(40);
 		height: rem(40);
 		position: relative;
-
-		color: $red!important;
-		background-color: transparent!important;
-		&:hover{
-			background-color: $red!important;
-			color: $white!important;
-		}
 
 		&:before,
 		&:after{
@@ -111,17 +144,65 @@
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translateY(-50%) translateX(-50%) rotate(var(--cross-rotate));
+			transform: translateY(-50%) translateX(-50%) rotate(var(--cross-rotate, 0deg));
 			height: rem(16);
 			width: 2px;
 			background-color: currentColor;
 		}
 
-		&:before{
-			--cross-rotate: 45deg;
+		&--remove{
+			@extend .btn-outline-danger;
+			color: $red!important;
+			background-color: transparent!important;
+			&:hover{
+				background-color: $red!important;
+				color: $white!important;
+			}
+
+			&:not(.active){
+				//@extend .disabled;
+			}
+			&:before{
+				--cross-rotate: 45deg;
+			}
+			&:after{
+				--cross-rotate: -45deg;
+			}
 		}
-		&:after{
-			--cross-rotate: -45deg;
+		&--add{
+			@extend .btn-outline-info;
+			color: $cyan!important;
+			background-color: transparent!important;
+			&:hover{
+				background-color: $cyan!important;
+				color: $white!important;
+			}
+
+			&:before{
+				--cross-rotate: 0deg;
+			}
+			&:after{
+				--cross-rotate: -90deg;
+			}
+		}
+
+		//
+		&--minify{
+			@extend .btn-secondary;
+			&:before,
+			&:after{
+				content: none;
+			}
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			padding: 4px;
+			img{
+				width: 16px;
+				height: auto;
+			}
 		}
 	}
 	//
@@ -142,15 +223,18 @@
 		font-weight: 600;
 
 		&--add{
-			@extend .btn-outline-info;
-			&:hover{
-				color: $white;
-			}
+			@extend .btn-info;
+			color: $white!important;
 		}
 		&--remove{
-			@extend .btn-warning;
-			color: $white;
+			@extend .btn-danger;
+			color: $white!important;
 		}
+		&--export{
+			@extend .btn-success;
+			color: $white!important;
+		}
+
 	}
 	&__{}
 } // end.sMain
