@@ -311,9 +311,13 @@ function eventHandler() {
 		if (target.closest('.r-add-btn-js')) {
 			let rItems = thisRepeator.querySelector('.r-items-js');
 
-			let newItem = document.createElement('div');
-			newItem.classList.add('r-item-js', 'd-none-no-important');
-			newItem.innerHTML = rItems.children[0].innerHTML;
+			let newItem = rItems.children[rItems.children.length - 1].cloneNode(true);
+					newItem.classList.add('r-item-js', 'd-none-no-important');
+					newItem.style = '';
+
+			let newItemFrameInputs = newItem.querySelector('.frame-inputs-js');
+					newItemFrameInputs.style = '';
+			//let dimension
 
 			rItems.appendChild(newItem);
 
@@ -340,33 +344,55 @@ function eventHandler() {
 		}
 	})
 
+	//.minify-all-banners-js ????
+	$('.repeator-js').click(function () {
+		let target = event.target;
+		// let thisRepeator = target.closest('.repeator-js');
+		let thisBanner = target.closest('.r-item-js');
+		let thisFrames = thisBanner.querySelectorAll('.frame-inputs-js');
+
+		if (target.closest('.minify-all-banners-js')) {
+			$(thisFrames).slideToggle(function (){
+				$(this).toggleClass('active');
+			})
+		}
+	})
+
 	//.minify-banners-js
 	$('.repeator-js').click(function () {
 		let target = event.target;
-		let thisRepeator = target.closest('.repeator-js');
+		let thisFrameInputs = target.closest('.r-item-js').querySelector('.frame-inputs-js');
 
 		if (target.closest('.minify-banners-js')) {
-			console.log('lala');
+			$(thisFrameInputs).slideToggle(function (){
+				$(this).toggleClass('active');
+			})
 		}
 	})
-	//.export-data-js
-	$('.export-data-js').click(function (){
-		let idCounter = 1;
-		let data = [];
-		let banners = document.querySelectorAll('.banners-js > *:not(:first-child)');
 
-		//-create splitter
+	//.export-data-js
+	function getSplitter(){
 		let oneFrame = document.querySelector('.frames-js > *'); //first at the same time
 		let splitterInps = oneFrame.querySelectorAll('[data-key]');
 		let splitter = {
 			id: '',
 			frame: '',
+			disclaimer: '',
+			cta: '',
 		};
 
 		for (let input of splitterInps){
 			splitter[input.getAttribute('data-key')] = '';
 		}
-		//
+
+		return splitter;
+	}
+
+	$('.export-data-js').click(function (){
+		let idCounter = 1;
+		let data = [];
+		let banners = document.querySelectorAll('.banners-js > *:not(:first-child)');
+		let splitter = getSplitter();
 
 		//-
 		for (let banner of banners){
@@ -381,10 +407,17 @@ function eventHandler() {
 				idCounter++;
 
 				let inputs = frame.querySelectorAll('[data-key]');
-
-				//-
 				for (let input of inputs){
-					frameObj[input.getAttribute('data-key')] = input.value;
+					let dataKey = input.getAttribute('data-key');
+					frameObj[dataKey] = input.value;
+
+					//
+					if(dataKey === 'disclaimer_txt'){
+						frameObj.disclaimer = input.value ? 'yes': 'no';
+					}
+					if(dataKey === 'cta_txt'){
+						frameObj.cta = input.value ? 'yes': 'no';
+					}
 				}
 
 				data.push(frameObj);
@@ -398,9 +431,7 @@ function eventHandler() {
 
 
 		//copy here
-		//navigator.clipboard.writeText
 		navigator.clipboard.writeText(json);
-
 	})
 
 	// todo
